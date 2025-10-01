@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Slideshow</title>
+<style>
+  :root {
+    --slides: 5;          /* nombre d'images */
+    --duration: 20s;      /* durée d’un cycle complet */
+    --fade: 1.2s;         /* durée du fondu */
+    --maxw: 1200px;       /* largeur max */
+    --ratio: 3/2;         /* ratio du cadre (change si besoin) */
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #000; }
+
+  .slideshow {
+    position: relative;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    aspect-ratio: var(--ratio);
+    overflow: hidden;
+    background: #000;
+  }
+
+  .slideshow figure {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    animation: slide var(--duration) linear infinite;
+    /* Pause au survol (utile si tu veux détailler une image) */
+    animation-play-state: running;
+  }
+  .slideshow:hover figure { animation-play-state: paused; }
+
+  .slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* change en 'contain' si tu veux voir l’image entière */
+    display: block;
+  }
+
+  /* Délais échelonnés pour 5 images */
+  .slideshow figure:nth-child(1) { animation-delay: calc(0 * (var(--duration) / var(--slides))); }
+  .slideshow figure:nth-child(2) { animation-delay: calc(1 * (var(--duration) / var(--slides))); }
+  .slideshow figure:nth-child(3) { animation-delay: calc(2 * (var(--duration) / var(--slides))); }
+  .slideshow figure:nth-child(4) { animation-delay: calc(3 * (var(--duration) / var(--slides))); }
+  .slideshow figure:nth-child(5) { animation-delay: calc(4 * (var(--duration) / var(--slides))); }
+
+  @keyframes slide {
+    /* 0–20% = “fenêtre” de chaque image, on fonde au début et à la fin */
+    0%    { opacity: 0; }
+    2%    { opacity: 1; }   /* fin du fondu d’entrée */
+    18%   { opacity: 1; }   /* début du fondu de sortie */
+    20%   { opacity: 0; }
+    100%  { opacity: 0; }
+  }
+
+  /* Accessibilité : réduire l’animation si l’utilisateur l’a demandé */
+  @media (prefers-reduced-motion: reduce) {
+    .slideshow figure { animation: none; }
+    .slideshow figure:first-child { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+  <div class="slideshow" role="region" aria-label="Diaporama portfolio">
+<figure><img src="https://plus.unsplash.com/premium_photo-1755889381455-ba9accf067cc?q=80&w=928&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""></figure>
+<figure><img src="https://images.unsplash.com/photo-1759239572496-4ec13e7643d6?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""></figure>
+<figure><img src="https://images.unsplash.com/photo-1759269106058-a52e5ac35e01?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""></figure>
+<figure><img src="https://plus.unsplash.com/premium_photo-1757322537620-4f4a3226c6ab?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""></figure>
+
+  </div>
+</body>
+</html>
